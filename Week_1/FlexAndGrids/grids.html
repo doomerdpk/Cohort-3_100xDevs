@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #parent-div {
+        width: 1200px;
+        height: 100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        /* gap between columns of grid */
+        gap: 10px;
+      }
+
+      #child1 {
+        background-color: red;
+        text-align: center;
+      }
+
+      #child2 {
+        background-color: blue;
+        text-align: center;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent-div">
+      <div id="child1">
+        <h1>Name</h1>
+        <h3>Deepak Kumar</h3>
+      </div>
+      <div id="child2">
+        <h3>Col1</h3>
+        <h3>Col2</h3>
+        <h3>Col3</h3>
+        <h3>Col1</h3>
+        <h3>Col2</h3>
+        <h3>Col3</h3>
+        <h3>Col1</h3>
+        <h3>Col2</h3>
+        <h3>Col3</h3>
+      </div>
+    </div>
+  </body>
+</html>

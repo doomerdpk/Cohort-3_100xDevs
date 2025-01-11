@@ -1,0 +1,37 @@
+<!-- Use Case: Take a parent div in center with width 1200px. put two children indide it in
+ratio 1:2 flex-grow: using this property we can decide, in what ratio children
+inside the div can be placed. -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #parent-div {
+        width: 1200px;
+        height: 100px;
+        margin: 0 auto;
+        background-color: red;
+        display: flex;
+      }
+
+      #child1 {
+        flex-grow: 1;
+        background-color: blue;
+      }
+
+      #child2 {
+        flex-grow: 2;
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent-div">
+      <div id="child1">Child 1</div>
+      <div id="child2">Child 2</div>
+    </div>
+  </body>
+</html>
