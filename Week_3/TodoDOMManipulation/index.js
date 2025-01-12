@@ -8,6 +8,11 @@ function deleteTodo(index) {
 function addTodo() {
   const todo = document.querySelector("input").value;
 
+  if (todo === "") {
+    alert("Can't add Empty Todo!");
+    return;
+  }
+
   const newTodo = document.createElement("div");
   newTodo.setAttribute("class", "newTodo");
   newTodo.setAttribute("id", "todo-" + todoCtr);
