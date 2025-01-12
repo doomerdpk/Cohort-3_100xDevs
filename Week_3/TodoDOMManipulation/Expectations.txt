@@ -1,0 +1,10 @@
+# create a Todo Application using DOM manipulation with below functionalities.
+
+- able to add todos.
+- able to delete todos.
+- able to view all the undeleted todos.
+
+
+# Keep the UI as clean as possible. (Don't need to be fancy in this part)
+
+# Try to add responsiveness to the website if there is scope of this.
