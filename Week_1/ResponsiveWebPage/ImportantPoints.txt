@@ -1,0 +1,5 @@
+#Detailed Explanation: https://chatgpt.com/share/677ed61e-6db0-8000-be4e-62ef00889fda
+
+Point 1: Responsiveness is achieved using CSS features like media queries, flexbox, and percentage-based widths (not static widths).
+
+Point 2: CSS - various units of sizes of elements: https://chatgpt.com/share/67837c70-8a68-8000-8a4b-7b43379e5879
