@@ -7,4 +7,6 @@
 
 # Keep the UI as clean as possible. (Don't need to be fancy in this part)
 
-# Try to add responsiveness to the website if there is scope of this.
+# Try to add responsiveness to the website.
+
+# Code Review: https://chatgpt.com/share/67853cf6-a030-8000-8848-3ddcc6d91df1
