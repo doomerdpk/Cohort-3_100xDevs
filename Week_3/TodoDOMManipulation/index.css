@@ -52,6 +52,18 @@ body {
   gap: 1vw;
 }
 
+.newTodo h3 {
+  /* flex-grow: 1 to allow it to grow and take up the available space */
+  flex-grow: 1;
+  /* word-wrap: break-word to allow it to wrap into multiple lines if needed. */
+  word-wrap: break-word;
+}
+
+.newTodo div {
+  /* white-space: nowrap to ensure it stays on the same line and doesn't wrap. */
+  white-space: nowrap;
+}
+
 #addEl {
   padding: 1.25rem;
   position: sticky;
@@ -68,13 +80,17 @@ input {
 }
 
 #addTodo,
-.deleteTodo {
+.deleteTodo,
+.markTodo,
+.editTodo,
+.saveTodo {
   height: 4vh;
   border: none;
   border-radius: 0.25rem;
   color: white;
   font-size: 0.8rem;
   padding: 0.25rem;
+  margin: 0.25rem;
 }
 
 #addTodo {
@@ -83,6 +99,18 @@ input {
 
 .deleteTodo {
   background-color: #e84118;
+}
+
+.markTodo {
+  background-color: #2ecc71;
+}
+
+.editTodo {
+  background-color: #2980b9;
+}
+
+.saveTodo {
+  background-color: #fea47f;
 }
 
 /* Adding Responsiveness */
