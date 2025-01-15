@@ -1,0 +1,8 @@
+#Create a Todo Application using the concept of States and Components.
+
+#Functionalities:
+1. Able to add a new Todo.
+2. Able to delete a specific Todo.
+3. Able to view all the undeleted todos.
+
+#Keep the UI basic and try to keep the elements centrally alligned.
