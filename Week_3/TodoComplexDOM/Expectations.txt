@@ -1,0 +1,11 @@
+# Create a Todo Application with below mentioned functionalities.
+
+1. Able to add new Todos.
+2. Able to delete a specific Todo.
+3. View all the undeleted Todos.
+
+Note: Do the above things using Complex DOM Manipulation approach. (Without using raw HTML in Javascript)
+
+#Keep the UI as basic as possible. Keep all the elements centrally alligned.
+
+#No Code Review Needed.
