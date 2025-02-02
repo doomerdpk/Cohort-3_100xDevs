@@ -1,0 +1,7 @@
+1. node index.js help
+2. node index.js -V/--version
+3. node index.js -h/--help
+4. node index.js add-todo Breakfast
+5. node index.js view-todos
+6. node index.js update-todo "Go to Gym" "Go to work"
+7. node index.js delete-todo "Go for Walk"
