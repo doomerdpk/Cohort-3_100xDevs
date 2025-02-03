@@ -62,7 +62,7 @@ app.get("/view-todos", async function (req, res) {
       });
     }
   } catch (err) {
-    res.status(404).json({
+    res.status(500).json({
       error: "Error fetching todos!",
     });
   }

@@ -1,0 +1,130 @@
+Review Link: https://chatgpt.com/share/67a11e1a-fb5c-8000-bed5-8fe47717f964
+
+Improved Code:
+
+const express = require("express");
+const fs = require("fs").promises;
+const path = require("path");
+
+const app = express();
+const TODOS_FILE = path.join(__dirname, "todos.json");
+
+// Initialize todos.json if it doesn't exist
+async function initializeTodosFile() {
+  try {
+    await fs.access(TODOS_FILE);
+  } catch (err) {
+    await fs.writeFile(TODOS_FILE, "[]", "utf-8");
+  }
+}
+initializeTodosFile();
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Helper functions
+async function readTodos() {
+  try {
+    const data = await fs.readFile(TODOS_FILE, "utf-8");
+    const todos = JSON.parse(data);
+    if (!Array.isArray(todos)) throw new Error("Invalid JSON format");
+    return todos;
+  } catch (error) {
+    await fs.writeFile(TODOS_FILE, "[]", "utf-8");
+    return [];
+  }
+}
+
+async function writeTodos(todos) {
+  await fs.writeFile(TODOS_FILE, JSON.stringify(todos, null, 2), "utf-8");
+}
+
+app.get("/", (req, res) => {
+  res.status(200).send("To Do Application (File System Based)");
+});
+
+// Endpoint to view all todos
+app.get("/view-todos", async (req, res) => {
+  try {
+    const todos = await readTodos();
+    res.status(200).json({ todos });
+  } catch (err) {
+    res.status(500).json({ error: "Error fetching todos!" });
+  }
+});
+
+// Endpoint to create a new todo
+app.post("/create-todo", async (req, res) => {
+  try {
+    const { id, title } = req.body;
+    if (!title || typeof title !== "string" || title.trim() === "") {
+      return res.status(400).json({ error: "Title must be a non-empty string!" });
+    }
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({ error: "ID must be a positive integer!" });
+    }
+    
+    const todos = await readTodos();
+    if (todos.some(todo => todo.id === id)) {
+      return res.status(409).json({ error: "Todo with this ID already exists!" });
+    }
+    
+    todos.push({ id, title });
+    await writeTodos(todos);
+    res.status(201).json({ message: "Successfully created a new todo!" });
+  } catch (err) {
+    res.status(500).json({ error: "Error creating todo!" });
+  }
+});
+
+// Endpoint to update an existing todo
+app.put("/update-todo/:id", async (req, res) => {
+  try {
+    const todoId = parseInt(req.params.id);
+    if (!Number.isInteger(todoId) || todoId <= 0) {
+      return res.status(400).json({ error: "Please provide a valid ID!" });
+    }
+    if (!req.body.title || typeof req.body.title !== "string" || req.body.title.trim() === "") {
+      return res.status(400).json({ error: "Title must be a non-empty string!" });
+    }
+    
+    const todos = await readTodos();
+    const todo = todos.find(todo => todo.id === todoId);
+    if (!todo) {
+      return res.status(404).json({ error: "Todo with provided ID doesn't exist!" });
+    }
+    
+    todo.title = req.body.title;
+    await writeTodos(todos);
+    res.status(200).json({ message: "Successfully updated the todo!" });
+  } catch (err) {
+    res.status(500).json({ error: "Error updating todo!" });
+  }
+});
+
+// Endpoint to delete an existing todo
+app.delete("/delete-todo/:id", async (req, res) => {
+  try {
+    const todoId = parseInt(req.params.id);
+    if (!Number.isInteger(todoId) || todoId <= 0) {
+      return res.status(400).json({ error: "Please provide a valid ID!" });
+    }
+    
+    const todos = await readTodos();
+    const index = todos.findIndex(todo => todo.id === todoId);
+    if (index === -1) {
+      return res.status(404).json({ error: "Todo with provided ID doesn't exist!" });
+    }
+    
+    todos.splice(index, 1);
+    await writeTodos(todos);
+    res.status(204).send(); // No content
+  } catch (err) {
+    res.status(500).json({ error: "Error deleting todo!" });
+  }
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Application is running on port ${PORT}`);
+});
