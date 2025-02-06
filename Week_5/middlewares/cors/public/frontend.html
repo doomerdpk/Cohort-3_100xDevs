@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+    <style>
+      body {
+        text-align: center;
+        background-color: #ff7675;
+      }
+
+      #Parent-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      #Calculator {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5vw;
+        border: 1px solid black;
+        height: 25vh;
+        justify-content: center;
+        padding: 2vh 2vw;
+        border-radius: 5px;
+      }
+
+      input {
+        border-radius: 5px;
+        border: none;
+        height: 4vh;
+      }
+
+      button {
+        background-color: #0984e3;
+        height: 4vh;
+        width: 2.5vw;
+        border-radius: 2px;
+        border: none;
+        cursor: pointer;
+        color: white;
+      }
+
+      button:hover {
+        background-color: #2d3436;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Arithmetic Calculator!</h1>
+    <div id="Parent-div">
+      <div id="Calculator">
+        <div>
+          <input type="text" placeholder="Enter first number..." id="num1" />
+          <input type="text" placeholder="Enter second number..." id="num2" />
+        </div>
+        <div>
+          <button onclick="calculate('add')">+</button>
+          <button onclick="calculate('subtract')">-</button>
+          <button onclick="calculate('multiply')">*</button>
+          <button onclick="calculate('divide')">/</button>
+        </div>
+        <div>
+          <input type="number" id="Result" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      //https://chatgpt.com/share/67a5343e-07b4-8000-941e-f6c93907d933
+      async function calculate(op) {
+        const a = document.getElementById("num1").value;
+        const b = document.getElementById("num2").value;
+
+        const backendurl = `http://localhost:3000/${op}?a=${a}&b=${b}`;
+
+        try {
+          const response = await axios.get(backendurl);
+          if (response.data.error) {
+            alert(response.data.error);
+            return;
+          }
+          document.getElementById("Result").value = response.data.message;
+        } catch (err) {
+          if (err.response.data.error) {
+            alert(err.response.data.error);
+            return;
+          }
+          alert("Unexpected Error happened!");
+        }
+      }
+    </script>
+  </body>
+</html>
