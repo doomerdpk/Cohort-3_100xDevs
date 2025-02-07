@@ -3,6 +3,12 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
+// app.use(
+//   cors({
+//     origin: ["http://localhost:43565"],
+//   })
+// );
+
 app.use(cors());
 
 function doOperation(req, res, operation) {
