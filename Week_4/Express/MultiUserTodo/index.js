@@ -4,7 +4,20 @@ const path = require("path");
 
 const app = express();
 
+const usersDataPath = path.join(__dirname, "/data");
+const userDataPath = path.join(__dirname, "/data/userData");
 const usersPath = path.join(__dirname, "/data/users.json");
+
+if (!fs.existsSync(usersDataPath)) {
+  fs.mkdirSync(usersDataPath, { recursive: true });
+  console.log("data folder created successfully...");
+}
+
+if (!fs.existsSync(userDataPath)) {
+  fs.mkdirSync(userDataPath, { recursive: true });
+  console.log("userData folder created successfully...");
+}
+
 if (!fs.existsSync(usersPath)) {
   fs.writeFileSync(usersPath, "[]", "utf-8");
   console.log("Users file created successfully..");
@@ -64,7 +77,7 @@ app.post("/create-user", async function (req, res) {
     );
 
     if (userIndex < 0) {
-      users.push(req.body);
+      users.push({ userName: req.body.userName, Email: req.body.Email });
 
       const usersData = JSON.stringify(users, null, 2);
       await writeFile(usersPath, usersData);
@@ -83,7 +96,7 @@ app.post("/create-user", async function (req, res) {
       });
     }
   } catch (err) {
-    console.error("Error Occured:" + err);
+    console.error("Error occurred:", err);
     res.status(500).json({
       error: "Error Signing Up!",
     });
@@ -107,7 +120,7 @@ app.get("/view-users", async function (req, res) {
       message: users,
     });
   } catch (err) {
-    console.error("Error is:" + err);
+    console.error("Error occurred:", err);
     res.status(500).json({
       error: "Error fetching users!",
     });
@@ -150,7 +163,7 @@ app.get("/view-todos/:user", async function (req, res) {
       message: todos,
     });
   } catch (err) {
-    console.error("Error is:" + err);
+    console.error("Error occurred:", err);
     res.status(500).json({
       error: "Error Fetching todos!",
     });
@@ -199,7 +212,7 @@ app.post("/create-todo/:user", async function (req, res) {
     const todoIndex = todos.findIndex((todo) => todo.id === todoId);
 
     if (todoIndex < 0) {
-      todos.push(req.body);
+      todos.push({ title: req.body.title, id: req.body.id });
 
       const todosData = JSON.stringify(todos, null, 2);
       await writeFile(userPath, todosData);
@@ -213,7 +226,7 @@ app.post("/create-todo/:user", async function (req, res) {
       });
     }
   } catch (err) {
-    console.error("Error is:" + err);
+    console.error("Error occurred:", err);
     res.status(500).json({
       error: "Error creating Todo!",
     });
@@ -270,7 +283,7 @@ app.put("/update-todo/:user/:id", async function (req, res) {
       });
     }
   } catch (err) {
-    console.error("Error is:" + err);
+    console.error("Error occurred:", err);
     res.status(500).json({
       error: "Error Updating Todo!",
     });
@@ -327,7 +340,7 @@ app.delete("/delete-todo/:user/:id", async function (req, res) {
       });
     }
   } catch (err) {
-    console.error("Error is:" + err);
+    console.error("Error occurred:", err);
     res.status(500).json({
       error: "Error deleting todos!",
     });

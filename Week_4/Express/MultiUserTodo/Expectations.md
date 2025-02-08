@@ -15,3 +15,40 @@
 4. /create-todo/:user (to create a todo for a specific user)
 5. /update-todo/:user/:id (to update a todo for a specific user)
 6. /delete-todo/:user/:id (to delete a todo for a specific user)
+
+#Code Review :https://chatgpt.com/share/67a757bc-b948-8000-98e6-55a371336aec
+
+#Better Code Structure:
+
+require("dotenv").config();
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Ensure data directories exist
+const dataDir = path.join(\_\_dirname, "data");
+const userDataDir = path.join(dataDir, "userData");
+const usersPath = path.join(dataDir, "users.json");
+
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+if (!fs.existsSync(userDataDir)) fs.mkdirSync(userDataDir, { recursive: true });
+if (!fs.existsSync(usersPath)) fs.writeFileSync(usersPath, "[]", "utf-8");
+
+app.use(express.json());
+
+// Utility functions
+const { readFile, writeFile } = fs.promises;
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+// Routes
+const userRoutes = require("./routes/users");
+const todoRoutes = require("./routes/todos");
+
+app.use("/users", userRoutes);
+app.use("/todos", todoRoutes);
+
+// Start server
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
