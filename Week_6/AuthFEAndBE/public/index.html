@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auth</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <style>
+      body {
+        background-color: #fbc531;
+      }
+      #Parent-Div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        gap: 4vw;
+      }
+
+      .child-div {
+        padding: 2vh 2vw;
+        border: 1px solid black;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5vw;
+      }
+
+      input {
+        border: none;
+        border-radius: 2px;
+      }
+
+      button {
+        border: none;
+        border-radius: 3px;
+        color: white;
+        background-color: #00a8ff;
+      }
+
+      #user-sec {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="Parent-Div">
+      <div class="child-div Auth-sec">
+        <h4>Sign-up Section</h4>
+        <input type="text" placeholder="Username..." id="signup-username" />
+        <input type="password" placeholder="Password..." id="signup-password" />
+        <button onclick="Signup()">Sign up</button>
+      </div>
+      <div class="child-div Auth-sec">
+        <h4>Sign-in Section</h4>
+        <input type="text" placeholder="Username..." id="signin-username" />
+        <input type="password" placeholder="Password..." id="signin-password" />
+        <button onclick="Signin()">Sign in</button>
+      </div>
+      <div class="child-div" id="user-sec">
+        <h4>User Information</h4>
+        <div id="user-info"></div>
+        <button onclick="LogOut()">Log out</button>
+      </div>
+    </div>
+
+    <script>
+      async function Signup() {
+        const response = await axios.post("http://localhost:3000/signup", {
+          username: document.getElementById("signup-username").value,
+          password: document.getElementById("signup-password").value,
+        });
+
+        if (response.data.error) {
+          alert(response.data.error);
+          return;
+        }
+
+        alert(response.data.message);
+        document.getElementById("signup-username").value = "";
+        document.getElementById("signup-password").value = "";
+      }
+
+      async function Signin() {
+        const response = await axios.post("http://localhost:3000/signin", {
+          username: document.getElementById("signin-username").value,
+          password: document.getElementById("signin-password").value,
+        });
+
+        if (response.data.error) {
+          alert(response.data.error);
+          return;
+        }
+
+        localStorage.setItem("token", response.data.message);
+        alert("You are succsssfully signed in....");
+        document.getElementById("signin-username").value = "";
+        document.getElementById("signin-password").value = "";
+
+        const userdata = await axios.get("http://localhost:3000/me", {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        });
+        document.getElementById("user-sec").style.display = "flex";
+        document.getElementById("user-info").innerHTML = JSON.stringify(
+          userdata.data
+        );
+        document.querySelectorAll(".Auth-sec").forEach((element) => {
+          element.style.display = "none";
+        });
+      }
+
+      function LogOut() {
+        localStorage.removeItem("token");
+        document.getElementById("user-sec").style.display = "none";
+        document.querySelectorAll(".Auth-sec").forEach((element) => {
+          element.style.display = "flex";
+        });
+      }
+    </script>
+  </body>
+</html>
