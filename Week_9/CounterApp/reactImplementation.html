@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counter</title>
+  </head>
+  <body>
+    <div id="counter-btn"></div>
+
+    <script>
+      //Define the State variable
+      let state = {
+        count: 0,
+      };
+
+      //Define the component
+      function onButtonPress() {
+        state.count++;
+        renderButton();
+      }
+
+      function buttonComponent(count) {
+        const counterButton = document.createElement("button");
+        counterButton.onclick = onButtonPress;
+        counterButton.innerHTML = "Counter " + count;
+        return counterButton;
+      }
+
+      //Define the Re-rendering logic
+      //Eventually after using react, this rendering/re-rendering will be done by react autometically.
+      //Our Rendering function is very unoptimal (It is first removing the button element from DOM then adding a new button element to the DOM
+      //with the updated state), react do it in very optimized way.
+      function renderButton() {
+        document.getElementById("counter-btn").innerHTML = "";
+        const button = buttonComponent(state.count);
+        document.getElementById("counter-btn").appendChild(button);
+      }
+
+      renderButton();
+    </script>
+  </body>
+</html>
