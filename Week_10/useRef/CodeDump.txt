@@ -1,0 +1,27 @@
+//Use Case:
+//1. useRef() to store the value of a DOM Element.
+//Scenerio: Clicking on a button should focus on input box.
+
+
+import { useRef } from "react";
+
+function App() {
+  const inputref = useRef();
+  function Focus() {
+    inputref.current.focus();
+  }
+  return (
+    <>
+      <input
+        ref={inputref}
+        type="text"
+        placeholder="Click on the button to focus on me"
+      />
+      <br />
+      <br />
+      <button onClick={Focus}>Click me!</button>
+    </>
+  );
+}
+
+export default App;
