@@ -1,0 +1,42 @@
+//Use Case: Simulate Routing in react.
+//"/" route should print the welcome page
+//"/name" route should print the name
+//"/dob"  route should print the DOB.
+//"/college" route should print the college name.
+//"*" route to should print error page for every other route
+
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Welcome from "./pages/Welcome";
+import Name from "./pages/Name";
+import DOB from "./pages/DOB";
+import College from "./pages/College";
+import Error from "./pages/Error";
+
+function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Link to="/">Welcome</Link>
+        <br />
+        <Link to="/name">Name</Link>
+        <br />
+        <Link to="/dob">DOB</Link>
+        <br />
+        <Link to="/college">College</Link>
+        <br />
+        <hr />
+        <Routes>
+          <Route index element={<Welcome />}></Route>
+          <Route path="/name" element={<Name />}></Route>
+          <Route path="/dob" element={<DOB />}></Route>
+          <Route path="/college" element={<College />}></Route>
+          <Route path="*" element={<Error />}></Route>
+        </Routes>
+        <hr />
+        <div>Contact us at +0612</div>
+      </BrowserRouter>
+    </>
+  );
+}
+
+export default App;
