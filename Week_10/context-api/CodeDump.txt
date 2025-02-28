@@ -1,0 +1,74 @@
+//Use case: Simulate Context - API
+//Scenerio:
+//1. App variable should render Counter component.
+//2. Counter variable should render three components - count, increaseCount, decreaseCount
+
+import { useContext } from "react";
+import { useState, createContext } from "react";
+
+//Step 1: Creating the context
+const countContext = createContext();
+
+function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <>
+      {/* Step 2: Create the provider to store the values */}
+      <countContext.Provider
+        value={{
+          count,
+          setCount,
+        }}
+      >
+        <Counter />
+      </countContext.Provider>
+    </>
+  );
+}
+
+function Counter() {
+  return (
+    <>
+      <Count />
+      <IncreaseCount />
+      <DecreaseCount />
+    </>
+  );
+}
+
+function Count() {
+  //Step3: Consume the created context
+  const { count } = useContext(countContext);
+
+  return <div>{count}</div>;
+}
+
+function IncreaseCount() {
+  //Step3: Consume the created context
+  const { setCount } = useContext(countContext);
+  return (
+    <button
+      onClick={() => {
+        setCount((c) => c + 1);
+      }}
+    >
+      Increase
+    </button>
+  );
+}
+
+function DecreaseCount() {
+  //Step3: Consume the created context
+  const { setCount } = useContext(countContext);
+  return (
+    <button
+      onClick={() => {
+        setCount((c) => c - 1);
+      }}
+    >
+      Decrease
+    </button>
+  );
+}
+
+export default App;
